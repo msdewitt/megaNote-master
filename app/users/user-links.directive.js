@@ -3,8 +3,9 @@
     .directive('userLinks', [
 
 
+      'AuthToken',
       'CurrentUser',
-      (CurrentUser) => {
+      (AuthToken, CurrentUser) => {
 
         class UserLinksController{
           user(){
@@ -12,6 +13,10 @@
           }
           signedIn(){
             return CurrentUser.signedIn();
+          }
+          logout(){
+            AuthToken.clear();
+            CurrentUser.clear();
           }
         }
 
@@ -24,6 +29,8 @@
                       <div class= "user-links" >
                       <span ng-show="vm.signedIn()">
                          Signed in as  {{ vm.user().name}}
+                         |
+                         <a ui-sref="sign-up" ng-click="vm.logout()">Signout</a>
                       </span>
                       <span ng-show="!vm.signedIn()">
                         <a ui-sref="sign-up"> Sign up for Meganote today!</a>
